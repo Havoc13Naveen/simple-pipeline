@@ -1,12 +1,23 @@
 pipeline{
     agent any
+    tools {
+  maven 'maven'
+}
     stages{
         stage('build'){
             agent {
                 label 'slave_1'
             }
             steps{
-                echo "hello world"
+                git url: "https://github.com/Havoc13Naveen/calculator.git"
+            }
+        }
+        stage('deploy'){
+            agent {
+                label 'slave_2'
+            }
+            steps{
+              sh  "mvn clean install"
             }
         }
     }
