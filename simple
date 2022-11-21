@@ -1,25 +1,25 @@
-pipeline{
+pipeline {
     agent any
     tools {
-  maven 'maven'
-}
-    stages{
-        stage('build'){
-            steps{
-                git url: "https://github.com/Havoc13Naveen/calculator.git"
+        maven 'maven'
+    }
+    stages {
+        stage('build') {
+            steps {
+                git url: 'https://github.com/Havoc13Naveen/calculator.git'
                 stash 'source'
             }
         }
-        stage('deploy'){
-            steps{
+        stage('deploy') {
+            steps {
                 unstash 'source'
-              sh  "mvn clean install"
+                sh  'mvn clean install'
             }
         }
-        stage('test tomcat'){
-            steps{ 
+        stage('test tomcat') {
+            steps {
                 sshagent(['tomcat']) {
-sh ''' scp -o StrictHostKeyChecking=no /simple-pipeline/target/'Calculator-1.0-SNAPSHOT.jar'  ubuntu@43.206.121.199:/home/ubuntu/app/apache-tomcat-9.0.69/webapps/ '''
+                    sh ''' scp -o StrictHostKeyChecking=no /simple-pipeline/target/{Calculator-1.0-SNAPSHOT.jar}  ubuntu@43.206.121.199:/home/ubuntu/app/apache-tomcat-9.0.69/webapps/ '''
                 }
             }
         }
