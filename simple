@@ -10,6 +10,7 @@ pipeline{
             }
             steps{
                 git url: "https://github.com/Havoc13Naveen/calculator.git"
+                stash 'source'
             }
         }
         stage('deploy'){
@@ -17,6 +18,7 @@ pipeline{
                 label 'slave_2'
             }
             steps{
+                unstash 'source'
               sh  "mvn clean install"
             }
         }
