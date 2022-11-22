@@ -16,13 +16,13 @@ pipeline {
                 sh  'mvn clean install'
             }
         }
-       // stage('test tomcat') {
-        //    steps {
-          //      sshagent(['slave 1']) {
-             //   sh ''' scp -o StrictHostKeyChecking=no simple-pipeline/target/Calculator-1.0-SNAPSHOT.jar ubuntu@43.206.121.199:/home/ubuntu/app/apache-tomcat-9.0.69/webapps/ '''
-               // }
-            //}
-        //}
+        stage('test tomcat') {
+            steps {
+               sshagent(['slave 1']) {
+                sh ''' scp -o StrictHostKeyChecking=no simple-pipeline/target/Calculator-1.0-SNAPSHOT.jar ubuntu@43.206.121.199:/home/ubuntu/app/apache-tomcat-9.0.69/webapps/ '''
+                }
+            }
+        }
     }
 }
 
